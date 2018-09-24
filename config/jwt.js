@@ -12,7 +12,7 @@ client.on("connect", function() {
     console.log("Redis client connected!")
 })
 
-const jwtBlacklist = require("jwt-blacklist")(jwt, {
+const jwtBlacklist = require("jwt-token-blacklist")(jwt, {
     store: {
         type: "redis",
         client

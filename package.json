@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon server.js --watch ../jwt-blacklist-custom --watch ./ --ignore ./node_modules",
+        "dev": "cross-env NODE_ENV=development nodemon server.js --watch ../jwt-token-blacklist --watch ./ --ignore ./node_modules",
         "debug": "cross-env NODE_ENV=debug nodemon --inspect server.js",
         "start": "cross-env NODE_ENV=production node server.js"
     },
