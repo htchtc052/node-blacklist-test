@@ -1,13 +1,8 @@
 const jwt = require("jsonwebtoken")
 const redis = require("redis")
+const config = require(`../config/index`)
 
-const server = {
-    host: "127.0.0.1",
-    port: 6379,
-    options: {}
-}
-
-const client = redis.createClient(server)
+const client = redis.createClient(config.redis)
 
 client.on("error", function(err) {
     console.log("Redis connect fail" + err)
