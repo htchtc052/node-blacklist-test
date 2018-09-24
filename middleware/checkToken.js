@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
                 return next(createError(401, verifyErr))
             }) */
         jwt.verify(token, config.jwt.secret, (err, decoded) => {
-            console.log("jwt.verify ", "err", err, "decoded", decoded)
+            //console.log("jwt.verify ", "err", err, "decoded", decoded)
 
             if (err) {
                 return next(createError(401, err))

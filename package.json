@@ -1,5 +1,5 @@
 {
-    "name": "digital-one-serv",
+    "name": "node-blacklist-test",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -11,8 +11,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "app-root-path": "^2.1.0",
-        "axios": "^0.18.0",
         "bcrypt": "^3.0.1",
         "body-parser": "^1.18.3",
         "cors": "^2.8.4",
@@ -25,7 +23,6 @@
         "https": "^1.0.0",
         "install": "^0.12.1",
         "jsonwebtoken": "^8.3.0",
-        "jwt-blacklist": "file:../jwt-blacklist-custom",
         "lodash": "^4.17.11",
         "mongoose": "5.2.8",
         "mongoose-plugin-autoinc": "^1.1.9",

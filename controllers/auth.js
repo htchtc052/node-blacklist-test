@@ -1,9 +1,7 @@
 const createError = require("http-errors")
-const jwt = require("jsonwebtoken")
-
-const jwtBlacklist = require("jwt-blacklist")(jwt)
 
 const logger = require(`.././config/winston`)
+const jwt = require(`.././config/jwt`)
 const config = require(`.././config`)
 
 const authControllers = {
@@ -102,14 +100,15 @@ const authControllers = {
             jwt.verify(refreshToken, config.jwt.refresh_secret, function(err, decoded) {
                 if (err) {
                     logger.debug("Refresh token err", err)
-                    return next(createError(401, "Refresh token not valid."))
+                    return next(createError(401, err))
                 }
 
                 const date_exp = new Date(decoded.exp * 1000)
                 const date_now = new Date()
                 const difference = Math.floor((date_exp.getTime() - date_now.getTime()) / 1000)
 
-                const user = decoded
+                const user = { id: decoded._id, name: decoded.name, email: decoded.email }
+
                 const token = jwt.sign(user, config.jwt.secret, { expiresIn: config.jwt.token_life })
 
                 logger.debug(`RefreshToken user  ${user.id} date_exp ${date_exp} left ${difference} sec`)
@@ -127,15 +126,20 @@ const authControllers = {
     },
 
     logout: () => (req, res, next) => {
-        const token = req.body.token || req.query.token || req.headers["x-token"]
+        const token = req.headers["x-token"] || null
+        const refreshToken = req.body.refreshToken || null
 
-        jwtBlacklist.blacklist(token).catch(err => {
-            console.log("blacklist err " + err)
-        })
+        if (token) {
+            jwt.blacklist(token).catch(err => {
+                console.log("Token blacklist err " + err)
+            })
+        }
 
-        /*     jwtBlacklist.blacklist(token).catch(err => {
-            logger.debug("blacklist err " + err)
-        }) */
+        if (refreshToken) {
+            jwt.blacklist(refreshToken).catch(err => {
+                logger.debug("Refresh token blacklist err " + err)
+            })
+        }
 
         return res.json({ ok: true })
     }
