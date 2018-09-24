@@ -9,6 +9,6 @@ router.post("/register", authController.register(User))
 router.post("/refreshToken", authController.refreshToken())
 
 router.post("/user", checkTokenMiddleware, authController.user())
-router.post("/logout", checkTokenMiddleware, authController.logout())
+router.post("/logout", authController.logout())
 
 module.exports = router

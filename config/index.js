@@ -5,7 +5,7 @@ const config = {
     jwt: {
         refresh_secret: process.env.JWT_REFRESH_SECRET || "secret_str",
         secret: process.env.JWT_SECRET || "secret_str",
-        token_life: "10m",
+        token_life: "4m",
         token_refresh_life: "30m"
     },
     app: {

@@ -1,8 +1,6 @@
 const createError = require("http-errors")
 const jwt = require("jsonwebtoken")
 
-//const jwtBlacklist = require("C:\\ww\\jwt-blacklist-custom\\lib\\jsonwebtokenb")(jwt)
-
 const jwtBlacklist = require("jwt-blacklist")(jwt)
 
 const logger = require(`.././config/winston`)
@@ -79,9 +77,7 @@ const authControllers = {
             .then(checkUser =>
                 checkUser.comparePassword(req.body.password, function(err, isMatch) {
                     if (isMatch && !err) {
-                        console.log(`login user`, user)
-
-                        const user = { id: user._id, name: user.name, email: user.email }
+                        const user = { id: checkUser._id, name: checkUser.name, email: checkUser.email }
 
                         const token = jwt.sign(user, config.jwt.secret, {
                             expiresIn: config.jwt.token_life
@@ -129,16 +125,19 @@ const authControllers = {
         //const user = { client_id: req.decoded.client_id, email: req.decoded.email, name: req.decoded.name }
         res.status(200).json({ user: req.user })
     },
-    logout: () => (req, res) => {
-        const token = req.token || null
 
-        jwtBlacklist.blacklist(token)
+    logout: () => (req, res, next) => {
+        const token = req.body.token || req.query.token || req.headers["x-token"]
 
-        /*   const refreshToken = req.body.refreshToken || null
+        jwtBlacklist.blacklist(token).catch(err => {
+            console.log("blacklist err " + err)
+        })
 
-        jwtBlacklist.blacklist(refreshToken)
- */
-        res.json({ success: true })
+        /*     jwtBlacklist.blacklist(token).catch(err => {
+            logger.debug("blacklist err " + err)
+        }) */
+
+        return res.json({ ok: true })
     }
 }
 

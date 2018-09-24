@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development nodemon server.js",
+        "dev": "cross-env NODE_ENV=development nodemon server.js --watch ../jwt-blacklist-custom --watch ./ --ignore ./node_modules",
         "debug": "cross-env NODE_ENV=debug nodemon --inspect server.js",
         "start": "cross-env NODE_ENV=production node server.js"
     },
@@ -25,7 +25,7 @@
         "https": "^1.0.0",
         "install": "^0.12.1",
         "jsonwebtoken": "^8.3.0",
-        "jwt-blacklist": "0.0.2",
+        "jwt-blacklist": "file:../jwt-blacklist-custom",
         "lodash": "^4.17.11",
         "mongoose": "5.2.8",
         "mongoose-plugin-autoinc": "^1.1.9",

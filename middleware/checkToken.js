@@ -10,7 +10,24 @@ module.exports = (req, res, next) => {
     req.token = token
 
     if (token) {
-        jwt.verify(token, config.jwt.secret, function(err, decoded) {
+        /*  jwt.verify(token, config.jwt.secret)
+            .then(decoded => {
+                const date_exp = new Date(decoded.exp * 1000)
+                const date_now = new Date()
+                const difference = Math.floor((date_exp.getTime() - date_now.getTime()) / 1000)
+
+                req.user = decoded
+
+                logger.debug(`Token valid user ${req.user.id}  date_exp ${date_exp} left ${difference} sec`)
+
+                next()
+            })
+            .catch(verifyErr => {
+                return next(createError(401, verifyErr))
+            }) */
+        jwt.verify(token, config.jwt.secret, (err, decoded) => {
+            console.log("jwt.verify ", "err", err, "decoded", decoded)
+
             if (err) {
                 return next(createError(401, err))
             }
